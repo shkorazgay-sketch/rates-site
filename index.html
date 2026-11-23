@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>نرخی دۆلار بە دینار</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1ea;--surface:#f8faf4;--ink:#12302b;--mute:#5b706b;--line:#cfd8cc;--up:#1b8a5a;--down:#c23b3b;--gold:#9a7020;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1b19;--surface:#142623;--ink:#e6efe9;--mute:#8fa8a1;--line:#27403b;--up:#4fd08e;--down:#ff7a74;--gold:#d9b25a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1b19;--surface:#142623;--ink:#e6efe9;--mute:#8fa8a1;--line:#27403b;--up:#4fd08e;--down:#ff7a74;--gold:#d9b25a;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Vazirmatn",system-ui,sans-serif;line-height:1.6}
+.wrap{max-width:880px;margin:0 auto;padding:20px 16px 40px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
+h1{font-size:1.1rem;margin:0;font-weight:800}
+.status{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--mute)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--up);animation:p 1.4s infinite}
+@keyframes p{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}}
+.hero{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:18px}
+.hero small{color:var(--mute);font-size:.9rem}
+.big{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.price{font-size:clamp(2.8rem,13vw,5.6rem);font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1;direction:ltr}
+.price.up{color:var(--up)}.price.down{color:var(--down)}
+.chg{font-size:1.1rem;font-weight:600;direction:ltr}
+.chg.up{color:var(--up)}.chg.down{color:var(--down)}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;margin-bottom:22px}
+.chart svg{display:block;width:100%;height:150px}
+.chart .ax{display:flex;justify-content:space-between;font-size:.78rem;color:var(--mute);direction:ltr}
+h2{font-size:1rem;margin:0 0 8px;font-weight:600;color:var(--gold)}
+.tbl{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line)}
+.tbl th,.tbl td{padding:12px 14px;text-align:right;border-bottom:1px solid var(--line)}
+.tbl th{font-weight:600;font-size:.82rem;color:var(--mute)}
+.tbl tr:last-child td{border-bottom:0}
+.num{font-variant-numeric:tabular-nums;direction:ltr;text-align:left!important;font-weight:600}
+.num.up{color:var(--up)}.num.down{color:var(--down)}
+.tw{overflow-x:auto}
+.note{margin-top:18px;font-size:.82rem;color:var(--mute)}
+button{font:inherit;background:none;border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:4px 12px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>نرخی دۆلار بە دینار</h1>
+    <div class="status"><span class="dot"></span><span id="clock">–</span><button id="theme" type="button">ڕووناک / تاریک</button></div>
+  </header>
+
+  <section class="hero">
+    <small>١٠٠ دۆلار، نرخی بازاڕ</small>
+    <div class="big">
+      <div class="price" id="price">–</div>
+      <div class="chg" id="chg">–</div>
+    </div>
+  </section>
+
+  <section class="chart">
+    <svg id="svg" viewBox="0 0 600 150" preserveAspectRatio="none" role="img" aria-label="چارتی گۆڕانکاری نرخ"></svg>
+    <div class="ax"><span>ئێستا</span><span>کۆن</span></div>
+  </section>
+
+  <h2>نرخ بەپێی شار</h2>
+  <div class="tw">
+  <table class="tbl">
+    <thead><tr><th>شوێن</th><th>١٠٠ دۆلار</th><th>گۆڕانکاری</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  </div>
+  <p class="note">سەرچاوە: چەناڵی تێلێگرامی «بازاڕی دۆلارەکە». هەر خولەکێک نوێ دەبێتەوە.</p>
+</div>
+
+<script>
+const names = { main:'نرخی بازاڕ', sulaymaniyah:'سلێمانی (فرۆشتن)', sulaymaniyahBuy:'سلێمانی (کڕین)' };
+async function getRates(){ const r = await fetch('/api/rates'); if(!r.ok) throw new Error('api'); return r.json(); }
+const kd = s => String(s).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const fmt = n => kd(n.toLocaleString('en-US'));
+const sign = n => (n>0?'+':n<0?'−':'') + fmt(Math.abs(n));
+const history = [], open = {};
+let last = null;
+function draw(){
+  const svg = document.getElementById('svg');
+  if (history.length < 2) return;
+  const mn = Math.min(...history), mx = Math.max(...history), pad = (mx-mn)||1;
+  const pts = history.map((v,i) => (600-(history.length-1-i)*(600/59)).toFixed(1)+','+(135-((v-mn)/pad)*120).toFixed(1));
+  const col = history[history.length-1] >= history[0] ? 'var(--up)' : 'var(--down)';
+  svg.innerHTML = `<polyline points="${pts.join(' ')}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
+}
+async function tick(){
+  let d;
+  try { d = await getRates(); } catch(e){ document.getElementById('clock').textContent = 'پەیوەندی نییە'; return; }
+  for (const k of Object.keys(names)) if (open[k]===undefined && d[k]) open[k] = d[k];
+  const p = document.getElementById('price'), c = document.getElementById('chg');
+  const diff = d.main - open.main;
+  p.className = 'price' + (last===null||d.main===last ? '' : d.main>last ? ' up' : ' down');
+  p.textContent = fmt(d.main);
+  c.textContent = sign(diff);
+  c.className = 'chg ' + (diff>=0?'up':'down');
+  if (d.main !== last) { history.push(d.main); if (history.length>60) history.shift(); draw(); }
+  last = d.main;
+  document.getElementById('rows').innerHTML = Object.keys(names).filter(k => d[k]).map(k => {
+    const df = d[k]-open[k];
+    return `<tr><td>${names[k]}</td><td class="num">${fmt(d[k])}</td><td class="num ${df>=0?'up':'down'}">${sign(df)}</td></tr>`;
+  }).join('');
+  document.getElementById('clock').textContent = d.updatedAt ? 'نوێکراوەتەوە ' + kd(new Date(d.updatedAt).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})) : '';
+}
+tick(); setInterval(tick, 10000);
+document.getElementById('theme').addEventListener('click', () => {
+  const r = document.documentElement;
+  const dark = r.getAttribute('data-theme')==='dark' || (!r.getAttribute('data-theme') && matchMedia('(prefers-color-scheme:dark)').matches);
+  r.setAttribute('data-theme', dark ? 'light' : 'dark');
+});
+</script>
+</body>
+</html>
