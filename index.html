@@ -75,7 +75,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
 <script>
 const names = { main:'نرخی بازاڕ', sulaymaniyah:'سلێمانی (فرۆشتن)', sulaymaniyahBuy:'سلێمانی (کڕین)' };
-async function getRates(){ const r = await fetch('/api/rates'); if(!r.ok) throw new Error('api'); return r.json(); }
+async function getRates(){ const r = await fetch('api/rates?t=' + Date.now()); if(!r.ok) throw new Error('api'); return r.json(); }
 const kd = s => String(s).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
 const fmt = n => kd(n.toLocaleString('en-US'));
 const sign = n => (n>0?'+':n<0?'−':'') + fmt(Math.abs(n));
