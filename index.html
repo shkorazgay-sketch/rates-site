@@ -4,113 +4,182 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>نرخی دۆلار بە دینار</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#eef1ea;--surface:#f8faf4;--ink:#12302b;--mute:#5b706b;--line:#cfd8cc;--up:#1b8a5a;--down:#c23b3b;--gold:#9a7020;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1b19;--surface:#142623;--ink:#e6efe9;--mute:#8fa8a1;--line:#27403b;--up:#4fd08e;--down:#ff7a74;--gold:#d9b25a;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#0e1b19;--surface:#142623;--ink:#e6efe9;--mute:#8fa8a1;--line:#27403b;--up:#4fd08e;--down:#ff7a74;--gold:#d9b25a;color-scheme:dark}
+:root{
+  --bg:#e5ece6;--surface:#f6f9f5;--ink:#0e2822;--mute:#5a6f68;--line:#cbd7cd;
+  --note1:#1b5144;--note2:#0d2b25;--gold:#e8b730;--gold-ink:#8a6410;
+  --up:#17814f;--down:#c23b3b;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#09130f;--surface:#101e1a;--ink:#e6efe8;--mute:#8aa399;--line:#223a33;
+  --note1:#1b5144;--note2:#0a211c;--gold:#f0c24a;--gold-ink:#f0c24a;--up:#58d69b;--down:#ff8a84;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#09130f;--surface:#101e1a;--ink:#e6efe8;--mute:#8aa399;--line:#223a33;
+  --note1:#1b5144;--note2:#0a211c;--gold:#f0c24a;--gold-ink:#f0c24a;--up:#58d69b;--down:#ff8a84;color-scheme:dark}
 *{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Vazirmatn",system-ui,sans-serif;line-height:1.6}
-.wrap{max-width:880px;margin:0 auto;padding:20px 16px 40px}
-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
-h1{font-size:1.1rem;margin:0;font-weight:800}
-.status{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--mute)}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--up);animation:p 1.4s infinite}
-@keyframes p{50%{opacity:.25}}
-@media (prefers-reduced-motion:reduce){.dot{animation:none}}
-.hero{border-bottom:2px solid var(--ink);padding-bottom:18px;margin-bottom:18px}
-.hero small{color:var(--mute);font-size:.9rem}
-.big{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.price{font-size:clamp(2.8rem,13vw,5.6rem);font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1;direction:ltr}
-.price.up{color:var(--up)}.price.down{color:var(--down)}
-.chg{font-size:1.1rem;font-weight:600;direction:ltr}
-.chg.up{color:var(--up)}.chg.down{color:var(--down)}
-.chart{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px;margin-bottom:22px}
-.chart svg{display:block;width:100%;height:150px}
-.chart .ax{display:flex;justify-content:space-between;font-size:.78rem;color:var(--mute);direction:ltr}
-h2{font-size:1rem;margin:0 0 8px;font-weight:600;color:var(--gold)}
-.tbl{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line)}
-.tbl th,.tbl td{padding:12px 14px;text-align:right;border-bottom:1px solid var(--line)}
-.tbl th{font-weight:600;font-size:.82rem;color:var(--mute)}
-.tbl tr:last-child td{border-bottom:0}
-.num{font-variant-numeric:tabular-nums;direction:ltr;text-align:left!important;font-weight:600}
-.num.up{color:var(--up)}.num.down{color:var(--down)}
-.tw{overflow-x:auto}
-.note{margin-top:18px;font-size:.82rem;color:var(--mute)}
-button{font:inherit;background:none;border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:4px 12px;cursor:pointer}
-button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Vazirmatn",system-ui,sans-serif;line-height:1.6;
+  padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.wrap{max-width:520px;margin:0 auto;padding:18px 16px 70px}
+
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:10px}
+.sun{width:20px;height:20px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px var(--bg),0 0 0 4.5px var(--gold)}
+h1{font-size:1.15rem;margin:0;font-weight:800}
+.tools{display:flex;align-items:center;gap:8px}
+.pill{display:flex;align-items:center;gap:7px;font-size:.8rem;color:var(--mute);background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:4px 12px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--up);animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+button{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:99px;width:34px;height:34px;cursor:pointer;font-size:1rem;line-height:1}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+.banknote{position:relative;overflow:hidden;border-radius:20px;padding:22px 22px 24px;color:#f3f7f2;
+  background:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 7px),
+    linear-gradient(135deg,var(--note1),var(--note2));
+  box-shadow:0 0 0 1px rgba(232,183,48,.55) inset,0 0 0 6px rgba(0,0,0,.18) inset,0 14px 30px -14px rgba(8,30,24,.55)}
+.rosette{position:absolute;left:-70px;bottom:-100px;width:300px;height:300px;pointer-events:none}
+.rosette ellipse{fill:none;stroke:rgba(255,255,255,.1);stroke-width:.7}
+.corner{position:absolute;top:14px;left:20px;font-weight:800;font-size:.95rem;color:var(--gold);opacity:.9}
+.cap{margin:0;font-size:.95rem;opacity:.8;position:relative}
+.amount{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-top:6px;position:relative;direction:rtl}
+.price{font-size:clamp(3rem,15.5vw,4.9rem);font-weight:900;letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums;direction:ltr}
+.unit{font-size:1.1rem;font-weight:600;color:var(--gold)}
+.delta{margin:10px 0 0;font-size:.9rem;font-weight:600;min-height:1.4em;position:relative}
+.delta.up{color:#7ae3b0}.delta.down{color:#ffa29c}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-top:14px;padding:16px 18px}
+.card h2{margin:0 0 12px;font-size:.95rem;font-weight:800;color:var(--gold-ink)}
+.split{display:grid;grid-template-columns:1fr 1fr}
+.split>div+div{border-right:1px solid var(--line);padding-right:18px}
+.split>div:first-child{padding-left:18px}
+.k{margin:0;font-size:.82rem;color:var(--mute)}
+.v{margin:0;font-size:1.55rem;font-weight:800;font-variant-numeric:tabular-nums;direction:ltr;text-align:right}
+.spread{margin:12px 0 0;font-size:.82rem;color:var(--mute)}
+
+.conv{display:grid;gap:10px}
+.field{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:6px 14px;background:var(--bg)}
+.field label{font-size:.85rem;color:var(--mute);min-width:44px}
+.field input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:1.3rem;font-weight:800;text-align:left;direction:ltr;padding:6px 0;font-variant-numeric:tabular-nums}
+.field input:focus{outline:none}
+.field:focus-within{border-color:var(--gold)}
+
+.credit{text-align:center;margin:34px 0 0;font-weight:600;font-size:.95rem;color:var(--gold-ink)}
+.credit::before{content:"";display:block;width:36px;height:2px;background:var(--gold);margin:0 auto 12px;border-radius:2px}
+.hide{display:none}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>نرخی دۆلار بە دینار</h1>
-    <div class="status"><span class="dot"></span><span id="clock">–</span><button id="theme" type="button">ڕووناک / تاریک</button></div>
+<main class="wrap">
+  <header class="top">
+    <div class="brand"><span class="sun" aria-hidden="true"></span><h1>نرخی دۆلار</h1></div>
+    <div class="tools">
+      <span class="pill"><i class="dot"></i><span id="clock">...</span></span>
+      <button id="theme" type="button" aria-label="گۆڕینی ڕووناک و تاریک">◐</button>
+    </div>
   </header>
 
-  <section class="hero">
-    <small>١٠٠ دۆلار، نرخی بازاڕ</small>
-    <div class="big">
-      <div class="price" id="price">–</div>
-      <div class="chg" id="chg">–</div>
+  <section class="banknote" aria-live="polite">
+    <svg class="rosette" id="rosette" viewBox="-150 -150 300 300" aria-hidden="true"></svg>
+    <span class="corner">$١٠٠</span>
+    <p class="cap">١٠٠ دۆلار بە دینار</p>
+    <div class="amount"><span class="price" id="price">–</span><span class="unit">دینار</span></div>
+    <p class="delta" id="delta"></p>
+  </section>
+
+  <section class="card" id="sulyCard">
+    <h2>سلێمانی</h2>
+    <div class="split">
+      <div><p class="k">فرۆشتن</p><p class="v" id="sell">–</p></div>
+      <div><p class="k">کڕین</p><p class="v" id="buy">–</p></div>
+    </div>
+    <p class="spread" id="spread"></p>
+  </section>
+
+  <section class="card">
+    <h2>گۆڕینی دراو</h2>
+    <div class="conv">
+      <div class="field"><label for="usd">دۆلار</label><input id="usd" inputmode="decimal" autocomplete="off" value="١٠٠"></div>
+      <div class="field"><label for="iqd">دینار</label><input id="iqd" inputmode="decimal" autocomplete="off"></div>
     </div>
   </section>
 
-  <section class="chart">
-    <svg id="svg" viewBox="0 0 600 150" preserveAspectRatio="none" role="img" aria-label="چارتی گۆڕانکاری نرخ"></svg>
-    <div class="ax"><span>ئێستا</span><span>کۆن</span></div>
-  </section>
-
-  <h2>نرخ بەپێی شار</h2>
-  <div class="tw">
-  <table class="tbl">
-    <thead><tr><th>شوێن</th><th>١٠٠ دۆلار</th><th>گۆڕانکاری</th></tr></thead>
-    <tbody id="rows"></tbody>
-  </table>
-  </div>
-  <p class="note">سەرچاوە: چەناڵی تێلێگرامی «بازاڕی دۆلارەکە». هەر خولەکێک نوێ دەبێتەوە.</p>
-</div>
+  <p class="credit">دروستکراوە لەلایەن (شکۆ ڕەزگەیی)</p>
+</main>
 
 <script>
-const names = { main:'نرخی بازاڕ', sulaymaniyah:'سلێمانی (فرۆشتن)', sulaymaniyahBuy:'سلێمانی (کڕین)' };
-async function getRates(){ const r = await fetch('api/rates?t=' + Date.now()); if(!r.ok) throw new Error('api'); return r.json(); }
+const API = 'https://rates.shkorazgay.workers.dev';
+const $ = id => document.getElementById(id);
 const kd = s => String(s).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
-const fmt = n => kd(n.toLocaleString('en-US'));
-const sign = n => (n>0?'+':n<0?'−':'') + fmt(Math.abs(n));
-const history = [], open = {};
-let last = null;
-function draw(){
-  const svg = document.getElementById('svg');
-  if (history.length < 2) return;
-  const mn = Math.min(...history), mx = Math.max(...history), pad = (mx-mn)||1;
-  const pts = history.map((v,i) => (600-(history.length-1-i)*(600/59)).toFixed(1)+','+(135-((v-mn)/pad)*120).toFixed(1));
-  const col = history[history.length-1] >= history[0] ? 'var(--up)' : 'var(--down)';
-  svg.innerHTML = `<polyline points="${pts.join(' ')}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>`;
+const en = s => String(s).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[,،٬\s]/g, '').replace('٫', '.');
+const fmt = n => kd(Math.round(n).toLocaleString('en-US'));
+const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+// نەخشی بانکنۆت
+(function(){ let h=''; for (let i=0;i<48;i++) h += `<ellipse rx="140" ry="46" transform="rotate(${i*3.75})"/>`; $('rosette').innerHTML = h; })();
+
+let shown = null, rate = 0;
+function roll(el, to){
+  if (reduce) { el.textContent = fmt(to); shown = to; return; }
+  const from = shown ?? Math.round(to * 0.8), t0 = performance.now(), dur = 900;
+  (function step(t){
+    const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+    el.textContent = fmt(from + (to - from) * e);
+    if (p < 1) requestAnimationFrame(step); else shown = to;
+  })(t0);
 }
-async function tick(){
+
+function trackDelta(v){
+  try {
+    const s = JSON.parse(localStorage.getItem('prevRate') || 'null');
+    if (!s) { localStorage.setItem('prevRate', JSON.stringify({ v })); return null; }
+    if (s.v !== v) { const o = { v, d: v - s.v }; localStorage.setItem('prevRate', JSON.stringify(o)); return o.d; }
+    return s.d || null;
+  } catch (e) { return null; }
+}
+
+function convert(){
+  const v = parseFloat(en($('usd').value));
+  $('iqd').value = isFinite(v) && rate ? fmt(v * rate / 100) : '';
+}
+$('usd').addEventListener('input', convert);
+$('iqd').addEventListener('input', () => {
+  const v = parseFloat(en($('iqd').value));
+  $('usd').value = isFinite(v) && rate ? kd(+(v * 100 / rate).toFixed(2)) : '';
+});
+
+async function load(){
   let d;
-  try { d = await getRates(); } catch(e){ document.getElementById('clock').textContent = 'پەیوەندی نییە'; return; }
-  for (const k of Object.keys(names)) if (open[k]===undefined && d[k]) open[k] = d[k];
-  const p = document.getElementById('price'), c = document.getElementById('chg');
-  const diff = d.main - open.main;
-  p.className = 'price' + (last===null||d.main===last ? '' : d.main>last ? ' up' : ' down');
-  p.textContent = fmt(d.main);
-  c.textContent = sign(diff);
-  c.className = 'chg ' + (diff>=0?'up':'down');
-  if (d.main !== last) { history.push(d.main); if (history.length>60) history.shift(); draw(); }
-  last = d.main;
-  document.getElementById('rows').innerHTML = Object.keys(names).filter(k => d[k]).map(k => {
-    const df = d[k]-open[k];
-    return `<tr><td>${names[k]}</td><td class="num">${fmt(d[k])}</td><td class="num ${df>=0?'up':'down'}">${sign(df)}</td></tr>`;
-  }).join('');
-  document.getElementById('clock').textContent = d.updatedAt ? 'نوێکراوەتەوە ' + kd(new Date(d.updatedAt).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})) : '';
+  try {
+    let r = null;
+    if (API) { try { r = await fetch(API); if (!r.ok) r = null; } catch (e) { r = null; } }
+    if (!r) r = await fetch('api/rates?t=' + Date.now());
+    if (!r.ok) throw new Error('x');
+    d = await r.json();
+    if (!d.main) throw new Error('x');
+  } catch (e) { if (!rate) $('clock').textContent = 'پەیوەندی نییە'; return; }
+
+  rate = d.main;
+  if (shown !== d.main) roll($('price'), d.main);
+  const dl = trackDelta(d.main), el = $('delta');
+  if (dl) { el.className = 'delta ' + (dl > 0 ? 'up' : 'down'); el.textContent = (dl > 0 ? '▲ ' : '▼ ') + fmt(Math.abs(dl)) + ' لە گۆڕانکارییەکەی پێشوو'; }
+  else { el.textContent = ''; el.className = 'delta'; }
+
+  const has = d.sulaymaniyah || d.sulaymaniyahBuy;
+  $('sulyCard').classList.toggle('hide', !has);
+  $('sell').textContent = d.sulaymaniyah ? fmt(d.sulaymaniyah) : '–';
+  $('buy').textContent = d.sulaymaniyahBuy ? fmt(d.sulaymaniyahBuy) : '–';
+  $('spread').textContent = d.sulaymaniyah && d.sulaymaniyahBuy ? 'جیاوازی کڕین و فرۆشتن: ' + fmt(d.sulaymaniyah - d.sulaymaniyahBuy) : '';
+
+  if (d.updatedAt) $('clock').textContent = 'نوێکراوەتەوە ' + kd(new Date(d.updatedAt).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }));
+  convert();
 }
-tick(); setInterval(tick, 10000);
-document.getElementById('theme').addEventListener('click', () => {
+load(); setInterval(load, 15000);
+
+$('theme').addEventListener('click', () => {
   const r = document.documentElement;
-  const dark = r.getAttribute('data-theme')==='dark' || (!r.getAttribute('data-theme') && matchMedia('(prefers-color-scheme:dark)').matches);
+  const dark = r.getAttribute('data-theme') === 'dark' || (!r.getAttribute('data-theme') && matchMedia('(prefers-color-scheme:dark)').matches);
   r.setAttribute('data-theme', dark ? 'light' : 'dark');
 });
 </script>
